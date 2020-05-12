@@ -15,3 +15,8 @@ gathering_hwp.py 실행 시 'hwp' 폴더의 모든 한글파일 자연어 처리
 
 gathering_xlsx.py 실행 시 'xlsx' 폴더의 모든 엑셀파일 자연어 처리 과정 수행
 
+#
+
+# V1.0
+hwp, xlsx 파일의 데이터 처리  
+README 작성  
