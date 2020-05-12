@@ -1,11 +1,10 @@
 # https://liveyourit.tistory.com/57
 import os
 import traceback
-
 from konlpy.tag import Okt
 import olefile
-
 import time
+import network_hwp as nh
 
 start = time.time()  # 시작 시간 저장
 noun = []
@@ -49,17 +48,18 @@ for hwp_name in file_list_excel:
     print("단어")
     print(noun_list_sort)
     for i in noun_list_sort:
-        wordfilename = "word/"+i[0] + ".txt"
+        wordfilename = "word/" + i[0] + ".txt"
         if os.path.isfile(wordfilename):
             print("파일존재")
             wordfile = open(wordfilename, 'a')
-            wordfile.write(hwp_filename+'\n')
+            wordfile.write(hwp_filename + '\n')
             wordfile.close()
 
         else:
             print("파일없음 생성필요")
             wordfile = open(wordfilename, 'w')
-            wordfile.write(hwp_filename+'\n')
+            wordfile.write(hwp_filename + '\n')
             wordfile.close()
 
     print("소요시간 :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
+    nh.draw_network(noun)
