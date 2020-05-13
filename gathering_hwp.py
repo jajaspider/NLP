@@ -1,16 +1,22 @@
 # https://liveyourit.tistory.com/57
 import os
 import traceback
-
 from konlpy.tag import Okt
 import olefile
-
 import time
+import network_hwp as nh
+import networkx as nx
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+from matplotlib import rc
+from networkx.drawing.nx_pydot import to_pydot
+from IPython.core.display import Image, display
 
 start = time.time()  # 시작 시간 저장
 noun = []
 nouncount = []
 okt = Okt()
+
 
 # 한글 파일일 경우
 file_list_excel = []
@@ -49,17 +55,35 @@ for hwp_name in file_list_excel:
     print("단어")
     print(noun_list_sort)
     for i in noun_list_sort:
-        wordfilename = "word/"+i[0] + ".txt"
+        wordfilename = "word/" + i[0] + ".txt"
         if os.path.isfile(wordfilename):
             print("파일존재")
             wordfile = open(wordfilename, 'a')
-            wordfile.write(hwp_filename+'\n')
+            wordfile.write(hwp_filename + '\n')
             wordfile.close()
 
         else:
             print("파일없음 생성필요")
             wordfile = open(wordfilename, 'w')
-            wordfile.write(hwp_filename+'\n')
+            wordfile.write(hwp_filename + '\n')
             wordfile.close()
 
-    print("소요시간 :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
+nhcom = nh.get_combination(noun)
+print(nhcom)
+g1 = nx.Graph()
+for i in noun:
+    g1.add_node(i)
+for j in nhcom:
+    g1.add_edge(j[0], j[1])
+
+path = './NanumGothic.otf'
+font_name = fm.FontProperties(fname=path, size=50).get_name()
+print(font_name)
+plt.rc('font', family=font_name)
+
+plt.subplot(111)
+nx.draw(g1, with_labels=True, node_size=5, width=0.05)
+plt.savefig("networkGraph.png")
+plt.show()
+
+print("소요시간 :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
