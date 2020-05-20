@@ -1,4 +1,5 @@
 import os
+import re
 
 path = "./csv"
 if os.path.isdir(path):
@@ -10,16 +11,23 @@ if os.path.isdir(path):
         print("excel file not exist")
 else:
     print("input your excel file in 'excel' forder")
-'''
+
 for i in file_list_excel:
+    # print("create table " + i + "(")
     print(i)
-    
     f = open("./csv/" + i, 'r', encoding='CP949')
     for _ in range(0, 1):
         line = f.readline()
-        print(line)
+        for j in line.split("|"):
+            rugal = re.compile('[a-zA-Zㄱ-힣]+').findall(j)
+            for k in rugal:
+                print(k)
+                # print(k+"                   char(5),")
+    # print(");")
+    print("")
 '''
-f = open("./csv/" + "TB_MTA_FRIG_화재안전특별조사와 재난번호_연결 202005121020.csv", 'r', encoding='CP949')
+f = open("./csv/" + "T-.csv", 'r', encoding='CP949')
 for _ in range(0, 10):
     line = f.readline()
     print(line)
+'''
