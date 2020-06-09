@@ -1,22 +1,19 @@
 # NLP
 
 NLP classifies the data of documents after statistics through natural language processing.
-#
-KoNLPy 설치를 필수로 하여야 합니다.
 
-> pip3 install konlpy
->
-> pip3 install jpype
-
-
+# 처리가능한 파일
+현재는 hwp,pdf 만 처리 가능
 #
 
-gathering_hwp.py 실행 시 'hwp' 폴더의 모든 한글파일 자연어 처리 과정 수행
-
-gathering_xlsx.py 실행 시 'xlsx' 폴더의 모든 엑셀파일 자연어 처리 과정 수행
-
-#
+# V1.1
+전체적으로 구조 변경
+init 실행시 필요한 폴더 생성
+read_pdf_PDFMINER 매개변수에 파일경로(PDF) 지정 시 text만 반환
+html2text 매개변수에 파일경로(html) 지정 시 text만 반환
+txt_processing 매개변수에 처리에 필요한 확장자,파일경로 지정 시 NLP처리하여 complete 경로에 반환, 추가로 text데이터는 temp에 임시저장
+get_directory_file_list 처리에 필요한 경로 지정 시 재귀식으로 파일 데이터 전부 확인
 
 # V1.0
 hwp, xlsx 파일의 데이터 처리  
-README 작성  
+README 작성
