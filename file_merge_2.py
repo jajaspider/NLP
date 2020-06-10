@@ -1,11 +1,12 @@
-from datetime import datetime
+# 평균 시간 계산용 함수 time_spend 전역 배열을 사용
+import csv
 import os
 import time
+from datetime import datetime
 
 from openpyxl import load_workbook, Workbook
 
 
-# 평균 시간 계산용 함수 time_spend 전역 배열을 사용
 def time_cal(count):
     sum = 0
     for i in time_spend:
@@ -16,8 +17,8 @@ def time_cal(count):
 
 # 파일 처리에 필요한 폴더 생성
 def init():
-    if not os.path.isdir("./merge1"):
-        os.mkdir("./merge1")
+    if not os.path.isdir("./merge2"):
+        os.mkdir("./merge2")
 
 
 # 디렉토리의 파일들을 저장하는 배열을 생성
@@ -31,40 +32,24 @@ def get_directory_file_list(target_directory, file_list=[]):
     return file_list
 
 
-def merge_1(file_number):
+def merge_2(file_number):
     start1 = time.time()  # 시작 시간 저장
     print(file_number + " 파일 처리 시작")
     now = datetime.now()
     process_starttime = now.strftime('%Y-%m-%d %H:%M:%S')
     print("프로세스 처리 시작시간 " + process_starttime)  # 2020-05-29 22:49:32
 
-    # complete폴더에있는 데이터를 활용하도록 함
-    file_location = complete_file_directory + file_number
+    file_location = merge1_file_directory + file_number
     try:
         excel_filename = file_location
         load_wb = load_workbook(excel_filename, data_only=True)
         for sheet in load_wb:
             # 엑셀에 2열부터시작하고, 최대 2행만 가져오도록함
             for row in sheet.iter_rows(min_row=2, max_col=2):
-                if len(row[0].value) > 1:
-                    #print(str(row[0].value) + " " + str(row[1].value) + " 추가중")
-                    if row[0].value in noun:
-                        nouncount[noun.index(row[0].value)] = int(nouncount[noun.index(row[0].value)]) + int(
-                            row[1].value)
-                    else:
-                        noun.append(row[0].value)
-                        nouncount.append(row[1].value)
+                wtiv_no.append(file_number.split(".")[0])
+                noun.append(row[0].value)
+                nouncount.append(row[1].value)
 
-    except Exception as e:
-        print(e)
-
-    try:
-        except_word = open("결과제외단어.txt", mode='rt', encoding='utf-8')
-        for i in except_word.readlines():
-            i = i.replace('\n', '')
-            del nouncount[noun.index(i)]
-            del noun[noun.index(i)]
-        except_word.close()
     except Exception as e:
         print(e)
 
@@ -75,7 +60,7 @@ def merge_1(file_number):
     print("파일처리 소요시간 : ", time.time() - start1)  # 현재시각 - 시작시간 = 실행 시간
 
 
-def merge1_save(file_number):
+def merge2_save(file_number):
     start2 = time.time()  # 시작 시간 저장
     now = datetime.now()
     process_starttime = now.strftime('%Y-%m-%d %H:%M:%S')
@@ -106,34 +91,40 @@ def merge1_save(file_number):
 
 
 start = time.time()  # 시작 시간 저장
+wtiv_no = []
 noun = []
 nouncount = []
 time_spend = []
-previous_number = 0
 
 init()
-complete_file_directory = "./complete/"
-file_list = get_directory_file_list(complete_file_directory)
-# ex ) './complete/200101000012543_9.xlsx', './complete/200101001831944_2.xlsx'
-# print(file_list)
+merge1_file_directory = "./merge1/"
+file_list = get_directory_file_list(merge1_file_directory)
+for i in range(0, len(file_list)):
+    merge_2(file_list[i].split("/")[-1])
 
-try:
-    for i in range(0, len(file_list) + 1):
-        print("총 파일 " + str(len(file_list)) + "개 중 " + str(i) + "번째 파일 처리 중")
-        print(str(round((i / len(file_list)) * 100, 2)) + "% 처리 중")
-        # 기존의 파일 번호를 확인하고 틀리다면 저장하는 함수를 실행하고 파일처리를 하도록 함
-        if int(file_list[i].split("/")[-1].split("_")[0]) != previous_number and previous_number != 0:
+noun_list = []
+for i in range(0, len(noun)):
+    templist = []
+    templist.append(wtiv_no[i])
+    templist.append(noun[i])
+    templist.append(nouncount[i])
+    noun_list.append(templist)
 
-            print("현재번호 : " + str(file_list[i].split("/")[-1].split("_")[0]))
-            print("기존번호 : " + str(previous_number))
-            merge1_save(file_list[i - 1].split("/")[-1].split("_")[0])
-            noun = []
-            nouncount = []
-        previous_number = int(file_list[i].split("/")[-1].split("_")[0])
-        merge_1(file_list[i].split("/")[-1])
-
-        time_cal(i)
-except:
-    merge1_save(file_list[-1].split("/")[-1].split("_")[0])
+print(noun_list)
+previous_number = 0
+for i in noun_list:
+    if int(i[0][0:4]) != previous_number:
+        csvf = open("./merge2/" + i[0][0:4] + ".csv", 'a', encoding='utf-8', newline='')
+        csvwrite = csv.writer(csvf)
+        csvwrite.writerow(["wtiv_no", "word", "frequency"])
+        csvf.close()
+    previous_number = int(i[0][0:4])
+    print("총 행 " + str(len(noun_list)) + "개 중 " + str(noun_list.index(i)) + "번째 파일 처리 중")
+    print(str(round((noun_list.index(i) / len(noun_list)) * 100, 2)) + "% 처리 중")
+    print("현재 파일 번호 : " + str(i[0]))
+    csvf = open("./merge2/"+i[0][0:4] + ".csv", 'a', encoding='utf-8', newline='')
+    csvwrite = csv.writer(csvf)
+    csvwrite.writerow(i)
+    csvf.close()
 
 print("총 소요시간 :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
