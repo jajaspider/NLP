@@ -6,6 +6,9 @@ NLP classifies the data of documents after statistics through natural language p
 현재는 hwp,pdf 만 처리 가능
 #
 
+# V1.2
+V1.1에서 생성된 데이터를 파일번호가 같은것으로 합병하고 의미없는 한글자데이터와 항상 출현하는 데이터를 삭제하는 로직을 추가함
+
 # V1.1
 전체적으로 구조 변경  
 init 실행시 필요한 폴더 생성  
