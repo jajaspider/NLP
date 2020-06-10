@@ -119,7 +119,7 @@ for i in noun_list:
         csvwrite.writerow(["wtiv_no", "word", "frequency"])
         csvf.close()
     previous_number = int(i[0][0:4])
-    print("총 행 " + str(len(noun_list)) + "개 중 " + str(noun_list.index(i)) + "번째 파일 처리 중")
+    print("총 " + str(len(noun_list)) + "행 중 " + str(noun_list.index(i)) + "번째 행 처리 중")
     print(str(round((noun_list.index(i) / len(noun_list)) * 100, 2)) + "% 처리 중")
     print("현재 파일 번호 : " + str(i[0]))
     csvf = open("./merge2/"+i[0][0:4] + ".csv", 'a', encoding='utf-8', newline='')
