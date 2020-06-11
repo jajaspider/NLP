@@ -7,10 +7,12 @@ NLP classifies the data of documents after statistics through natural language p
 #
 
 # V1.21
-V1.1에서 생성된 데이터를 파일번호가 같은것으로 합병
-의미없는 한 글자 데이터 삭제
-항상 출현하는 임의의 데이터 삭제
-위의 행동으로 추가된 데이터를 월별로 정리하고, csv 파일로 정리할 수 있도록 구현
+V1.1에서 생성된 데이터를 파일번호가 같은것으로 합병  
+의미없는 한 글자 데이터 삭제  
+항상 출현하는 임의의 데이터 삭제  
+-> merge1.py  
+위의 행동으로 추가된 데이터를 월별로 정리하고, csv 파일로 정리할 수 있도록 구현  
+-> merge2.py  
 
 
 # V1.1
