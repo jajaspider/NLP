@@ -6,6 +6,12 @@ NLP classifies the data of documents after statistics through natural language p
 현재는 hwp,pdf 만 처리 가능
 #
 
+# V1.22
+V1.21에서 속도저하 이슈가 발생  
+-print 제거  
+-파일을 열고닫고 방식에서 열어두고, 모두 작성 후 닫고 저장  
+-time 관련 데이터 모두 주석처리  
+
 # V1.21
 V1.1에서 생성된 데이터를 파일번호가 같은것으로 합병  
 의미없는 한 글자 데이터 삭제  
