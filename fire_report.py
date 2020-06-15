@@ -55,6 +55,9 @@ def html2text(html):
 def txt_processing(extension, full_filename):
     # start1 = time.time()  # 시작 시간 저장
     file_name = full_filename.split("/")[-1]
+    if os.path.isfile("./complete/" + file_name + ".xlsx"):
+        return
+
     # 기록용 배열 2가지를 만듬
     noun = []
     nouncount = []
@@ -139,6 +142,8 @@ def get_directory_file_list(target_directory, file_list=[]):
 init()
 file_list = get_directory_file_list("I:/nfds/2020/")
 for i in range(0, len(file_list)):
+    if os.path.isfile("./complete/" + file_list[i].split("/")[-1] + ".xlsx"):
+        continue
     # print("총 파일 " + str(len(file_list)) + "개 중 " + str(i) + "번째 파일 처리 중")
     # print(str(round((i / len(file_list)) * 100, 2)) + "% 처리 중")
     if file_list[i].split("/")[-1] is not "2007413200031_2" or file_list[i].split("/")[-1] is not "200841180000004_4" or \

@@ -6,6 +6,9 @@ NLP classifies the data of documents after statistics through natural language p
 현재는 hwp,pdf 만 처리 가능
 #
 
+# V1.23
+V1.22에서는 'complete', 'merge_1', 'merge_2'와 같이 하나의 폴더에 작업물을 모으게되어있었으나 각각 연도별 폴더를 생성하여 작업물을 기록하도록 함
+
 # V1.22
 V1.21에서 속도저하 이슈가 발생  
 -print 제거  

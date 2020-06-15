@@ -111,7 +111,7 @@ for i in range(0, len(noun)):
     noun_list.append(templist)
 
 #print(noun_list)
-csvf = open("./merge2/2002.csv", 'a', encoding='utf-8', newline='')
+csvf = open("./merge2/"+noun_list[0][0][0:4]+".csv", 'a', encoding='utf-8', newline='')
 csvwrite = csv.writer(csvf)
 csvwrite.writerow(["wtiv_no", "word", "frequency"])
 csvf.close()
