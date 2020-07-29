@@ -6,6 +6,41 @@ NLP classifies the data of documents after statistics through natural language p
 현재는 hwp,pdf 만 처리 가능
 #
 
+# Psuedo code
+    get filename of folder
+    get extends of filename
+    if extends == "hwp"
+      do Convert hwp file to html. // When reading hwp files directly, there is a problem that cannot read the whole
+      Extract textdata through parsing from html
+    elif extends == "pdf"
+      Extract textdata from pdf file through read_pdf_pdfminer function
+    
+    #text_processing
+    get oktdata by textdata processed in okt.nouns function, NLP processing
+    while oktdata
+      do write_excel # Record the word and frequency, and the file name is 'reportnumber_number.xlsx'
+    end
+    
+    #merge1
+    while read_excel
+      do write_excel # Accumulate and record word and frequency, and the file name is 'reportnumber.xlsx'
+    end
+    
+    #merge2
+    while merge1_read_excel
+      do write_csv # Monthly data is sequentially accumulated in a file of the form'YYYYDD.csv'
+    end
+    
+    --------------------------------------------
+    
+    func get_directory_file_list - 디렉토리의 파일리스트를 가져온다.
+    func txt_processing - 확장자에따라 텍스트 처리를 한다.
+    func html2text - html에서 text형태만 추출한다.
+    func read_pdf_PDFMINER - pdf형태에서 text만 읽어온다.
+    func okt.nouns - text를 NLP 처리한다.
+    func merge_1 - 1차 결과를 추출한다. 결과는 데이터의 같은 보고서 번호를 병합하여 '보고서번호.xlsx' 형태의 파일로 word와 frequency열을 포함한다.
+    func merge_2 - 2차 결과를 추출한다. merge1의 데이터를 이용하고 'YYYYDD.csv' 형태의 파일로 월별 데이터를 순차적으로 누적한다.
+
 # V1.23
 V1.22에서는 'complete', 'merge_1', 'merge_2'와 같이 하나의 폴더에 작업물을 모으게되어있었으나 각각 연도별 폴더를 생성하여 작업물을 기록하도록 함
 
