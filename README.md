@@ -7,39 +7,45 @@ NLP classifies the data of documents after statistics through natural language p
 #
 
 # Psuedo code
-    get filename of folder
-    get extends of filename
-    if extends == "hwp"
-      do Convert hwp file to html. // When reading hwp files directly, there is a problem that cannot read the whole
-      Extract textdata through parsing from html
-    elif extends == "pdf"
-      Extract textdata from pdf file through read_pdf_pdfminer function
-    
-    #text_processing
-    get oktdata by textdata processed in okt.nouns function, NLP processing
-    while oktdata
-      do write_excel # Record the word and frequency, and the file name is 'reportnumber_number.xlsx'
-    end
-    
-    #merge1
-    while read_excel
-      do write_excel # Accumulate and record word and frequency, and the file name is 'reportnumber.xlsx'
-    end
-    
-    #merge2
-    while merge1_read_excel
-      do write_csv # Monthly data is sequentially accumulated in a file of the form'YYYYDD.csv'
-    end
+    var filelist is Store a list of files in a directory
+    var extends is The file extension for filelist.
+    var textdata is Save Text Data
+    var noun_list is List of NLP results.
     
     --------------------------------------------
     
-    func get_directory_file_list - 디렉토리의 파일리스트를 가져온다.
-    func txt_processing - 확장자에따라 텍스트 처리를 한다.
-    func html2text - html에서 text형태만 추출한다.
-    func read_pdf_PDFMINER - pdf형태에서 text만 읽어온다.
-    func okt.nouns - text를 NLP 처리한다.
-    func merge_1 - 1차 결과를 추출한다. 결과는 데이터의 같은 보고서 번호를 병합하여 '보고서번호.xlsx' 형태의 파일로 word와 frequency열을 포함한다.
-    func merge_2 - 2차 결과를 추출한다. merge1의 데이터를 이용하고 'YYYYDD.csv' 형태의 파일로 월별 데이터를 순차적으로 누적한다.
+    function get_directory_file_list - Get a list of files in a directory.
+    function html2text - Extract only text from html.
+    function read_pdf_pdfminer - Open the pdf and return the text.
+    function text_processing - Perform NLP through okt.nouns
+    function write,read excel - Read and write as an Excel file.
+    
+    function merge_1 - First results are extracted. The result is a file in the form of'report number.xlsx' by merging the same report number of the data and includes the word and frequency columns.
+    function merge_2 - Second results are extracted. The data of merge1 is used and monthly data is sequentially accumulated in a file of the form'YYYYDD.csv'.
+    
+    --------------------------------------------
+    
+    while filelist:
+      if extends is "hwp"
+        do Convert hwp file to html // When reading hwp files directly, there is a problem that cannot read the whole
+        textdata <- through parsing from html
+      elif extends is "pdf"
+        textdata <- pdf file through read_pdf_pdfminer function
+        
+      noun_list <- text_processing(filelist)
+    whileend
+        
+    while noun_list:
+      do write_excel(noun_list) // Record the word and frequency, and the file name is 'reportnumber_number.xlsx'
+    whileend
+    
+    while read_excel:
+      do write_excel(read_excel) // Accumulate and record word and frequency, and the file name is 'reportnumber.xlsx'
+    whileend
+    
+    while merge1_read_excel
+      do write_csv(merge1_read_excel) # Monthly data is sequentially accumulated in a file of the form'YYYYDD.csv'
+    whileend
 
 # V1.23
 V1.22에서는 'complete', 'merge_1', 'merge_2'와 같이 하나의 폴더에 작업물을 모으게되어있었으나 각각 연도별 폴더를 생성하여 작업물을 기록하도록 함
